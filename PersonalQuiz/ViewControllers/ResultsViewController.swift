@@ -25,11 +25,12 @@ class ResultsViewController: UIViewController {
     private func showResult(of array: [AnimalType],
                             result: UILabel,
                             description: UILabel) {
+        
         let mappedAnimals = array.map { ($0, 1) }
         let counts = Dictionary(mappedAnimals, uniquingKeysWith: +)
         let sortedAnimals = counts.sorted( by: { $0.1 > $1.1 })
         
-        result.text = String(sortedAnimals.first?.key.rawValue ?? " ")
+        result.text = "Вы - " + String(sortedAnimals.first?.key.rawValue ?? " ")
         description.text = sortedAnimals.first?.key.definition
     }
 }
