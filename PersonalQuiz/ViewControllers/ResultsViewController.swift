@@ -17,20 +17,22 @@ class ResultsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
-        showResult(of: animalsChosen,
-                   result: resultLabel,
-                   description: descriptionLabel)
+        showResult()
     }
     
-    private func showResult(of array: [AnimalType],
-                            result: UILabel,
-                            description: UILabel) {
-        
-        let mappedAnimals = array.map { ($0, 1) }
+}
+extension ResultsViewController {
+    private func showResult() {
+        let mappedAnimals = animalsChosen.map { ($0, 1) }
         let counts = Dictionary(mappedAnimals, uniquingKeysWith: +)
         let sortedAnimals = counts.sorted( by: { $0.1 > $1.1 })
         
-        result.text = "Вы - " + String(sortedAnimals.first?.key.rawValue ?? " ")
-        description.text = sortedAnimals.first?.key.definition
+        guard let mostFrequentAnimal = sortedAnimals.first?.key else { return }
+        updateUI(with: mostFrequentAnimal)
+    }
+   
+    private func updateUI(with animal: AnimalType) {
+        resultLabel.text = "Вы - " + String(animal.rawValue)
+        descriptionLabel.text = animal.definition
     }
 }
